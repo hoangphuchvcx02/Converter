@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chuyển đổi số nguyên</title>
+</head>
+<style>
+ body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+h1 {
+    color: #007bff;
+    font-size: 24px;
+}
+
+/* Hiệu ứng hover cho nút */
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Thiết kế cho các trường nhập */
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+select, input {
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Kết quả */
+.result {
+    margin-top: 20px;
+}
+
+.result span {
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Thiết kế đáp ứng cho thiết bị di động */
+@media screen and (max-width: 600px) {
+    .container {
+        width: 100%;
+        border-radius: 0;
+    }
+}
+</style>
+<body>
+    <h1>Chuyển đổi số nguyên</h1>
+    
+    <label for="baseSelect">Chọn hệ cơ số:</label>
+    <select id="baseSelect">
+        <option value="dec">Decimal</option>
+        <option value="bin">Binary</option>
+        <option value="hex">Hexadecimal</option>
+    </select>
+    
+    <label for="inputValue">Nhập số nguyên:</label>
+    <input type="text" id="inputValue">
+    
+    <p>Decimal (Dec): <span id="decOutput"></span></p>
+    <p>Binary (Bin): <span id="binOutput"></span></p>
+    <p>Hexadecimal (Hex): <span id="hexOutput"></span></p>
+
+    <script>
+        function convert() {
+            var baseSelect = document.getElementById("baseSelect");
+            var inputValue = document.getElementById("inputValue").value;
+            var decOutput = document.getElementById("decOutput");
+            var binOutput = document.getElementById("binOutput");
+            var hexOutput = document.getElementById("hexOutput");
+
+            var selectedBase = baseSelect.value;
+
+            if (selectedBase === "dec") {
+                var decValue = parseInt(inputValue, 10);
+                decOutput.innerText = decValue;
+                binOutput.innerText = "0b" + decValue.toString(2);
+                hexOutput.innerText = "0x" + decValue.toString(16).toUpperCase();
+            } else if (selectedBase === "bin") {
+                var binValue = inputValue.replace(/[^01]/g, ''); // Xóa các ký tự không hợp lệ
+                var decValue = parseInt(binValue, 2);
+                decOutput.innerText = decValue;
+                binOutput.innerText = "0b" + binValue;
+                hexOutput.innerText = "0x" + decValue.toString(16).toUpperCase();
+            } else if (selectedBase === "hex") {
+                var hexValue = inputValue.replace(/[^0-9A-Fa-f]/g, ''); // Xóa các ký tự không hợp lệ
+                var decValue = parseInt(hexValue, 16);
+                decOutput.innerText = decValue;
+                binOutput.innerText = "0b" + decValue.toString(2);
+                hexOutput.innerText = "0x" + hexValue.toUpperCase();
+            }
+        }
+
+        // Tự động chuyển đổi khi người dùng thay đổi giá trị đầu vào
+        document.getElementById("inputValue").addEventListener("input", convert);
+    </script>
+</body>
+</html>
