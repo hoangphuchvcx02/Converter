@@ -92,36 +92,42 @@ select, input {
 
     <script>
         function convert() {
-            var baseSelect = document.getElementById("baseSelect");
-            var inputValue = document.getElementById("inputValue").value;
-            var decOutput = document.getElementById("decOutput");
-            var binOutput = document.getElementById("binOutput");
-            var hexOutput = document.getElementById("hexOutput");
+    var baseSelect = document.getElementById("baseSelect");
+    var inputValue = document.getElementById("inputValue").value;
+    var decOutput = document.getElementById("decOutput");
+    var binOutput = document.getElementById("binOutput");
+    var hexOutput = document.getElementById("hexOutput");
 
-            var selectedBase = baseSelect.value;
+    var selectedBase = baseSelect.value;
 
-            if (selectedBase === "dec") {
-                var decValue = parseInt(inputValue, 10);
-                decOutput.innerText = decValue;
-                binOutput.innerText = "0b" + decValue.toString(2);
-                hexOutput.innerText = "0x" + decValue.toString(16).toUpperCase();
-            } else if (selectedBase === "bin") {
-                var binValue = inputValue.replace(/[^01]/g, ''); // Xóa các ký tự không hợp lệ
-                var decValue = parseInt(binValue, 2);
-                decOutput.innerText = decValue;
-                binOutput.innerText = "0b" + binValue;
-                hexOutput.innerText = "0x" + decValue.toString(16).toUpperCase();
-            } else if (selectedBase === "hex") {
-                var hexValue = inputValue.replace(/[^0-9A-Fa-f]/g, ''); // Xóa các ký tự không hợp lệ
-                var decValue = parseInt(hexValue, 16);
-                decOutput.innerText = decValue;
-                binOutput.innerText = "0b" + decValue.toString(2);
-                hexOutput.innerText = "0x" + hexValue.toUpperCase();
-            }
-        }
+    if (selectedBase === "dec") {
+        var decValue = parseInt(inputValue, 10);
+        decOutput.innerText = decValue;
+        binOutput.innerText = formatBinary(decValue.toString(2));
+        hexOutput.innerText = "0x" + decValue.toString(16).toUpperCase();
+    } else if (selectedBase === "bin") {
+        var binValue = inputValue.replace(/[^01]/g, ''); // Xóa các ký tự không hợp lệ
+        var decValue = parseInt(binValue, 2);
+        decOutput.innerText = decValue;
+        binOutput.innerText = formatBinary(binValue);
+        hexOutput.innerText = "0x" + decValue.toString(16).toUpperCase();
+    } else if (selectedBase === "hex") {
+        var hexValue = inputValue.replace(/[^0-9A-Fa-f]/g, ''); // Xóa các ký tự không hợp lệ
+        var decValue = parseInt(hexValue, 16);
+        decOutput.innerText = decValue;
+        binOutput.innerText = formatBinary(decValue.toString(2));
+        hexOutput.innerText = "0x" + hexValue.toUpperCase();
+    }
+}
 
-        // Tự động chuyển đổi khi người dùng thay đổi giá trị đầu vào
-        document.getElementById("inputValue").addEventListener("input", convert);
+function formatBinary(binaryString) {
+    // Thêm dấu cách sau mỗi 4 số tính từ phải qua
+    var formattedBinary = binaryString.replace(/\B(?=(\d{4})+(?!\d))/g, " ");
+    return "0b" + formattedBinary;
+}
+
+// Tự động chuyển đổi khi người dùng thay đổi giá trị đầu vào
+document.getElementById("inputValue").addEventListener("input", convert);
     </script>
 </body>
 </html>
